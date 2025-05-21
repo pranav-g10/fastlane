@@ -5976,65 +5976,6 @@ public func hgPush(force: OptionalConfigValue<Bool> = .fastlaneDefault(false),
 }
 
 /**
- Send a error/success message to [HipChat](https://www.hipchat.com/)
-
- - parameters:
-   - message: The message to post on HipChat
-   - channel: The room or @username
-   - apiToken: Hipchat API Token
-   - customColor: Specify a custom color, this overrides the success boolean. Can be one of 'yellow', 'red', 'green', 'purple', 'gray', or 'random'
-   - success: Was this build successful? (true/false)
-   - version: Version of the Hipchat API. Must be 1 or 2
-   - notifyRoom: Should the people in the room be notified? (true/false)
-   - apiHost: The host of the HipChat-Server API
-   - messageFormat: Format of the message to post. Must be either 'html' or 'text'
-   - includeHtmlHeader: Should html formatted messages include a preformatted header? (true/false)
-   - from: Name the message will appear to be sent from
-
- Send a message to **room** (by default) or a direct message to **@username** with success (green) or failure (red) status.
- */
-public func hipchat(message: String = "",
-                    channel: String,
-                    apiToken: String,
-                    customColor: OptionalConfigValue<String?> = .fastlaneDefault(nil),
-                    success: OptionalConfigValue<Bool> = .fastlaneDefault(true),
-                    version: String,
-                    notifyRoom: OptionalConfigValue<Bool> = .fastlaneDefault(false),
-                    apiHost: String = "api.hipchat.com",
-                    messageFormat: String = "html",
-                    includeHtmlHeader: OptionalConfigValue<Bool> = .fastlaneDefault(true),
-                    from: String = "fastlane")
-{
-    let messageArg = RubyCommand.Argument(name: "message", value: message, type: nil)
-    let channelArg = RubyCommand.Argument(name: "channel", value: channel, type: nil)
-    let apiTokenArg = RubyCommand.Argument(name: "api_token", value: apiToken, type: nil)
-    let customColorArg = customColor.asRubyArgument(name: "custom_color", type: nil)
-    let successArg = success.asRubyArgument(name: "success", type: nil)
-    let versionArg = RubyCommand.Argument(name: "version", value: version, type: nil)
-    let notifyRoomArg = notifyRoom.asRubyArgument(name: "notify_room", type: nil)
-    let apiHostArg = RubyCommand.Argument(name: "api_host", value: apiHost, type: nil)
-    let messageFormatArg = RubyCommand.Argument(name: "message_format", value: messageFormat, type: nil)
-    let includeHtmlHeaderArg = includeHtmlHeader.asRubyArgument(name: "include_html_header", type: nil)
-    let fromArg = RubyCommand.Argument(name: "from", value: from, type: nil)
-    let array: [RubyCommand.Argument?] = [messageArg,
-                                          channelArg,
-                                          apiTokenArg,
-                                          customColorArg,
-                                          successArg,
-                                          versionArg,
-                                          notifyRoomArg,
-                                          apiHostArg,
-                                          messageFormatArg,
-                                          includeHtmlHeaderArg,
-                                          fromArg]
-    let args: [RubyCommand.Argument] = array
-        .filter { $0?.value != nil }
-        .compactMap { $0 }
-    let command = RubyCommand(commandID: "", methodName: "hipchat", className: nil, args: args)
-    _ = runner.executeCommand(command)
-}
-
-/**
  Refer to [App Center](https://github.com/Microsoft/fastlane-plugin-appcenter/)
 
  - parameters:
@@ -8826,8 +8767,8 @@ public func rubyVersion() {
    - prelaunchSimulator: Enabling this option will launch the first simulator prior to calling any xcodebuild command
    - reinstallApp: Enabling this option will automatically uninstall the application before running it
    - appIdentifier: The bundle identifier of the app to uninstall (only needed when enabling reinstall_app)
-   - onlyTesting: Array of strings matching Test Bundle/Test Suite/Test Cases to run
-   - skipTesting: Array of strings matching Test Bundle/Test Suite/Test Cases to skip
+   - onlyTesting: Array of test identifiers to run. Expected format: TestTarget[/TestSuite[/TestCase]]
+   - skipTesting: Array of test identifiers to skip. Expected format: TestTarget[/TestSuite[/TestCase]]
    - testplan: The testplan associated with the scheme that should be used for testing
    - onlyTestConfigurations: Array of strings matching test plan configurations to run
    - skipTestConfigurations: Array of strings matching test plan configurations to skip
@@ -9261,8 +9202,8 @@ public func say(text: [String],
    - prelaunchSimulator: Enabling this option will launch the first simulator prior to calling any xcodebuild command
    - reinstallApp: Enabling this option will automatically uninstall the application before running it
    - appIdentifier: The bundle identifier of the app to uninstall (only needed when enabling reinstall_app)
-   - onlyTesting: Array of strings matching Test Bundle/Test Suite/Test Cases to run
-   - skipTesting: Array of strings matching Test Bundle/Test Suite/Test Cases to skip
+   - onlyTesting: Array of test identifiers to run. Expected format: TestTarget[/TestSuite[/TestCase]]
+   - skipTesting: Array of test identifiers to skip. Expected format: TestTarget[/TestSuite[/TestCase]]
    - testplan: The testplan associated with the scheme that should be used for testing
    - onlyTestConfigurations: Array of strings matching test plan configurations to run
    - skipTestConfigurations: Array of strings matching test plan configurations to skip
@@ -13887,4 +13828,4 @@ public let snapshotfile: Snapshotfile = .init()
 
 // Please don't remove the lines below
 // They are used to detect outdated files
-// FastlaneRunnerAPIVersion [0.9.186]
+// FastlaneRunnerAPIVersion [0.9.188]
